@@ -1,6 +1,9 @@
-# csv2json
+# csv2json / json2csv
 
-Tolerant CSV/TSV → JSON converter, Python 3.8+, stdlib only.
+Two tolerant converters, Python 3.8+, stdlib only:
+
+- `csv2json.py` — CSV/TSV → JSON (or NDJSON)
+- `json2csv.py` — JSON array / NDJSON → CSV, union of keys, dot.notation flattening
 
 Handles the things naive converters break on:
 
@@ -31,3 +34,16 @@ python -m unittest -v test_csv2json
 
 5 tests covering quotes/newlines, BOM+semicolon, ragged/blank rows, duplicate
 headers, and type inference.
+
+
+## json2csv
+
+```bash
+python json2csv.py data.json -o out.csv
+python json2csv.py events.ndjson --columns id,ts,type
+python json2csv.py nested.json --no-flatten
+```
+
+Union of keys in first-seen order, nested objects flattened to `a.b`, arrays
+serialised as JSON inside one cell, `null` → empty, booleans → `true/false`,
+proper CSV quoting. 5 unittest cases (`test_json2csv.py`).
